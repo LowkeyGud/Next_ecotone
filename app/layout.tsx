@@ -45,7 +45,6 @@ export default function RootLayout({
         >
           <ThemeProvider>
             {children}
-            <h1>This is demo text</h1>
           </ThemeProvider>
         </ClerkProvider>
       </body>
