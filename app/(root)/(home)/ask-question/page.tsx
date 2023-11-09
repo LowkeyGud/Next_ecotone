@@ -1,8 +1,13 @@
+import Question from '@/components/forms/Question'
 import React from 'react'
 
 const AskQuestion = () => {
   return (
-    <div>AskQuestion</div>
+    <div>
+      <div>
+        <Question/>
+      </div>
+    </div>
   )
 }
 
