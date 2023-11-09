@@ -19,6 +19,7 @@ import { Button } from "../ui/button";
 import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
+import { createQuestion } from "@/lib/actions/question.action";
 
 const type: any = "create";
 
@@ -39,7 +40,7 @@ const Question = () => {
     setIsSubmitting(true);
 
     try {
-        // call api from here
+      await createQuestion({});
     } catch (error) {
       console.log(error);
     } finally {
@@ -93,6 +94,8 @@ const Question = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex w-full flex-col gap-10"
       >
+        {/* Title */}
+
         <FormField
           control={form.control}
           name="title"
@@ -116,6 +119,8 @@ const Question = () => {
           )}
         />
 
+        {/* Editor aka Description */}
+
         <FormField
           control={form.control}
           name="explanation"
@@ -132,6 +137,8 @@ const Question = () => {
                     // @ts-ignore
                     editorRef.current = editor;
                   }}
+                  onBlur={field.onBlur}
+                  onEditorChange={(content) => field.onChange(content)}
                   initialValue=""
                   init={{
                     height: 350,
@@ -171,6 +178,8 @@ const Question = () => {
             </FormItem>
           )}
         />
+
+        {/* Tags */}
 
         <FormField
           control={form.control}
@@ -218,7 +227,7 @@ const Question = () => {
             </FormItem>
           )}
         />
-       <Button
+        <Button
           type="submit"
           className="primary-gradient w-fit !text-light-900"
           disabled={isSubmitting}
