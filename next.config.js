@@ -4,16 +4,11 @@ const nextConfig = {
           remotePatterns: [
             {
               protocol: 'https',
-              hostname: 'static.wikia.nocookie.net',
-            },
-            {
-              protocol: 'https',
-              hostname: 'i.pinimg.com',
+              hostname: '*',
             },
           ],
         },
         experimental: {
-          serverActions: true,
           mdxRs: true,
           serverComponentsExternalPackages: ['mongoose']
         }

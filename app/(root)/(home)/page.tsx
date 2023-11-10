@@ -11,7 +11,6 @@ import Link from "next/link";
 export default async function Home() {
   const results = await getQuestions({});
 
-  console.log(results.questions);
 
   return (
     <>

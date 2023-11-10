@@ -34,7 +34,6 @@ export function ThemeProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     handleThemeChange();
-    console.log("Mode, ", mode);
   }, [mode]);
 
 
