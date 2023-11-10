@@ -6,7 +6,23 @@ import {
   CreateUserParams,
   UpdateUserParams,
   DeleteUserParams,
+  GetAllUsersParams,
 } from "./shared.types";
+
+export async function getAllUsers(params: GetAllUsersParams) {
+  try {
+    await connectToDatabase();
+
+    // const { page = 1, pageSize = 20, filter, searchQuery } = params;
+
+    const users = await User.find({}).sort({ createdAt: -1 });
+
+    return users;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 export async function getUserById(params: any) {
   try {
