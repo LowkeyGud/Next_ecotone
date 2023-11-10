@@ -22,6 +22,7 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { createQuestion } from "@/lib/actions/question.action";
 import { usePathname, useRouter } from "next/navigation";
+import { useTheme } from "@/context/ThemeProvider";
 
 const type: any = "create";
 
@@ -34,6 +35,8 @@ const Question = ({ mongoUserId }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const { mode } = useTheme();
+
   // Form Definition
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
@@ -154,11 +157,15 @@ const Question = ({ mongoUserId }: Props) => {
                     editorRef.current = editor;
                   }}
                   onBlur={field.onBlur}
-                  onEditorChange={(content) => field.onChange(content)}
+                  onEditorChange={(content) => {
+                    field.onChange(content);
+                  }}
                   initialValue=""
                   init={{
                     height: 350,
                     menubar: false,
+                    skin: mode === "dark" ? "oxide-dark" : "oxide",
+                    content_css: mode,
                     plugins: [
                       "advlist",
                       "autolink",
@@ -182,7 +189,7 @@ const Question = ({ mongoUserId }: Props) => {
                       "codesample | bold italic forecolor | alignleft aligncenter " +
                       "alignright alignjustify | bullist numlist ",
                     content_style:
-                      "body { font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont; font-size:16px }",
+                      "body {font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont; font-size:16px}",
                   }}
                 />
               </FormControl>

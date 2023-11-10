@@ -5,11 +5,10 @@ import Question from "@/components/forms/Question";
 import React from "react";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/lib/actions/user.action";
+import { auth } from "@clerk/nextjs";
 
 const AskQuestion = async () => {
-  // const { userId } = auth();
-
-  const userId = "5f7b1d9c4a8d3d5a9f6c0d5e";
+  const { userId } = auth();
 
   if (!userId) redirect("/sign-in");
 
