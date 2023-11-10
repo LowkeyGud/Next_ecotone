@@ -14,7 +14,7 @@ const Layout = ({ children }: PropsWithChildren) => {
         </section>
         <RightSidebar />
       </div>
-      Toaster
+      {/* Toaster */}
     </main>
   );
 };
