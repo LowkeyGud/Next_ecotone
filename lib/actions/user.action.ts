@@ -1,5 +1,3 @@
-"use server";
-
 import User from "@/database/user.modal";
 import { connectToDatabase } from "../mongoose";
 
