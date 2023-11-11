@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getJoinedDate } from "@/lib/utils";
 import ProfileLink from "@/components/shared/ProfileLink";
+import Stats from "@/components/shared/Stats";
 
 const Profile = async ({ params, searchParams }: URLProps) => {
   const userInfo = await getUserInfo({ userId: params.id });
@@ -75,8 +76,10 @@ const Profile = async ({ params, searchParams }: URLProps) => {
           </SignedIn>
         </div>
       </div>
-
-      {/* Stats */}
+      <Stats 
+      totalQuestions={userInfo.totalQuestions}
+      totalAnswers={userInfo.totalAnswers}
+      />
 
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="top-posts" className="flex-1">
@@ -92,10 +95,10 @@ const Profile = async ({ params, searchParams }: URLProps) => {
             value="top-posts"
             className="mt-5 flex w-full flex-col gap-6"
           >
-            POSTS
+            QuestionTab
           </TabsContent>
           <TabsContent value="answers" className="flex w-full flex-col gap-6">
-            ANSWERS
+            AnswerTab
           </TabsContent>
         </Tabs>
       </div>
