@@ -3,12 +3,26 @@
 import User from "@/database/user.modal";
 import { connectToDatabase } from "../mongoose";
 import {
+  GetAllTagsParams,
   GetQuestionsByTagIdParams,
   GetTopInteractedTagsParams,
 } from "./shared.types";
 import Tag, { ITag } from "@/database/tag.modal";
 import Question from "@/database/question.modal";
 import { FilterQuery } from "mongoose";
+
+export async function getAllTags(params: GetAllTagsParams) {
+  try {
+    connectToDatabase();
+
+    const tags = await Tag.find({});
+
+    return { tags };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
   try {
