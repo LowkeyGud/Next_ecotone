@@ -10,6 +10,7 @@ import Answer from "@/components/forms/Answer";
 import { auth } from "@clerk/nextjs";
 import { getUserById } from "@/lib/actions/user.action";
 import AllAnswers from "@/components/shared/AllAnswers";
+import Votes from "@/components/shared/Votes";
 
 const QuestionDetailPage = async ({ params, searchParams }: any) => {
   const { userId: clerkId } = auth();
@@ -43,7 +44,18 @@ const QuestionDetailPage = async ({ params, searchParams }: any) => {
             </p>
           </Link>
 
-          <div className="flex justify-end">Votes</div>
+          <div className="flex justify-end">
+            <Votes
+              type="Question"
+              itemId={JSON.stringify(question._id)}
+              userId={JSON.stringify(mongoUser._id)}
+              upvotes={question.upvotes.length}
+              hasupVoted={question.upvotes.includes(mongoUser._id)}
+              downvotes={question.downvotes.length}
+              hasdownVoted={question.downvotes.includes(mongoUser._id)}
+              hasSaved={mongoUser?.saved.includes(question._id)}
+            />
+          </div>
         </div>
 
         <h2 className="h2-semibold text-dark200_light900 mt-3.5 w-full text-left">
@@ -56,8 +68,8 @@ const QuestionDetailPage = async ({ params, searchParams }: any) => {
           imgUrl="/assets/icons/clock.svg"
           alt="clock icon"
           value={` asked ${getTimestamp(question.createdAt)}`}
-          title=" Asked"
-          textStyles="small-medium text-dark400_light800"
+          title=""
+          textStyles="small- medium text-dark400_light800"
         />
 
         <Metric
@@ -92,9 +104,9 @@ const QuestionDetailPage = async ({ params, searchParams }: any) => {
 
       <AllAnswers
         questionId={question._id}
-        userId={JSON.stringify(mongoUser._id)}
+        userId={mongoUser._id}
         totalAnswers={question.answers.length}
-      />
+      />f
 
       <Answer
         question={question.content}
