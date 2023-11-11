@@ -136,9 +136,9 @@ const Answer = ({ question, questionId, authorId }: Props) => {
                         "codesample | bold italic forecolor | alignleft aligncenter |" +
                         "alignright alignjustify | bullist numlist",
                       content_style:
-                        "body { font-family:Inter; font-size:16px }",
-                        skin: mode === "dark" ? "oxide-dark" : "oxide",
-                        content_css: mode,
+                        "body {font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont; font-size:16px}",
+                      skin: mode === "dark" ? "oxide-dark" : "oxide",
+                      content_css: mode,
                     }}
                   />
                 </FormControl>
