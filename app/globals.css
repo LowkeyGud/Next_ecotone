@@ -20,7 +20,7 @@
   }
 
   .card-wrapper {
-    @apply bg-light-900 dark:dark-gradient shadow-light-100 dark:shadow-dark-100;
+    @apply bg-light-800/40 dark:dark-gradient shadow-light-100 dark:shadow-dark-100;
   }
 
   .btn {
@@ -46,8 +46,8 @@
   .dark-gradient {
     background: linear-gradient(
       232deg,
-      rgba(23, 28, 35, 0.41) 0%,
-      rgba(19, 22, 28, 0.7) 100%
+      rgba(48, 27, 0, 0.855) 0%,
+      rgba(0, 0, 0, 0.7) 100%
     );
   }
 
