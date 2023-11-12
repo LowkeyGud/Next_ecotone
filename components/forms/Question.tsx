@@ -40,15 +40,15 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
 
   const edit = type === "Edit";
 
-  const parsedQuestionDetails = JSON.parse(questionDetails || "");
+  const parsedQuestionDetails =questionDetails && JSON.parse(questionDetails || "");
 
-  const groupTags = parsedQuestionDetails.tags.map((tag: ITag) => tag.name);
+  const groupTags = parsedQuestionDetails?.tags.map((tag: ITag) => tag.name);
 
   // Form Definition
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
     defaultValues: {
-      title: parsedQuestionDetails.title,
+      title: parsedQuestionDetails?.title,
       tags: groupTags || [],
     },
   });
@@ -179,7 +179,7 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
                   onEditorChange={(content) => {
                     field.onChange(content);
                   }}
-                  initialValue={parsedQuestionDetails.content || ""}
+                  initialValue={parsedQuestionDetails?.content || ""}
                   init={{
                     height: 350,
                     menubar: false,
