@@ -4,7 +4,6 @@ import Question from "@/database/question.modal";
 import { connectToDatabase } from "../mongoose";
 import { ViewQuestionParams } from "./shared.types";
 import Interaction from "@/database/interaction.modal";
-import { todo } from "node:test";
 
 export async function viewQuestion(params: ViewQuestionParams) {
   try {
