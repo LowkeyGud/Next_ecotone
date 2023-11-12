@@ -15,14 +15,11 @@ export async function getAllTags(params: GetAllTagsParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery, filter } = params;
-
-    // popular
-    // recent
-    // name
-    // old
+    const { searchQuery, filter, page = 1, pageSize = 5 } = params;
 
     const query: FilterQuery<typeof Tag> = {};
+
+    const skipAmount = (page - 1) * pageSize;
 
     if (searchQuery) {
       query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
@@ -49,13 +46,14 @@ export async function getAllTags(params: GetAllTagsParams) {
         break;
 
       default:
+        sortOptions = { questionCount: -1 };
         break;
     }
 
+    const totalTags = await Tag.countDocuments(query);
+
     const tags = await Tag.aggregate([
-      {
-        $match: query,
-      },
+      { $match: query },
       {
         $project: {
           name: 1,
@@ -63,12 +61,14 @@ export async function getAllTags(params: GetAllTagsParams) {
           questionCount: { $size: "$questions" },
         },
       },
-      {
-        $sort: sortOptions,
-      },
+      { $skip: skipAmount },
+      { $limit: pageSize + 1 },
+      { $sort: sortOptions },
     ]);
 
-    return { tags };
+    const hasNext = totalTags > skipAmount + tags.length;
+
+    return { tags, hasNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -118,7 +118,7 @@ export async function getQuestionByTagId(params: GetQuestionsByTagIdParams) {
   try {
     connectToDatabase();
 
-    const { tagId, page = 1, pageSize = 10, searchQuery } = params;
+    const { tagId, page = 1, pageSize = 5, searchQuery } = params;
     const skipAmount = (page - 1) * pageSize;
 
     const tagFilter: FilterQuery<ITag> = { _id: tagId };
@@ -130,9 +130,9 @@ export async function getQuestionByTagId(params: GetQuestionsByTagIdParams) {
         ? { title: { $regex: searchQuery, $options: "i" } }
         : {},
       options: {
-        sort: { createdAt: -1 },
         skip: skipAmount,
-        limit: pageSize + 1, // +1 to check if there is next page
+        limit: pageSize + 1, // pageSize+1 to find if there are other questions and compute hasNext based on that
+        sort: { createdAt: -1 },
       },
       populate: [
         { path: "tags", model: Tag, select: "_id name" },
@@ -146,7 +146,9 @@ export async function getQuestionByTagId(params: GetQuestionsByTagIdParams) {
 
     const questions = tag.questions;
 
-    return { tagTitle: tag.name, questions };
+    const hasNext = questions.length > pageSize;
+
+    return { tagTitle: tag.name, questions, hasNext };
   } catch (error) {
     console.log(error);
 

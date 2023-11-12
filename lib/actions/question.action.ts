@@ -26,6 +26,8 @@ export async function getQuestions(params: GetQuestionsParams) {
 
     const query: FilterQuery<typeof Question> = {};
 
+    const skipAmount = (page - 1) * pageSize;
+
     if (searchQuery) {
       query.$or = [
         { title: { $regex: new RegExp(searchQuery, "i") } },
@@ -55,9 +57,15 @@ export async function getQuestions(params: GetQuestionsParams) {
     const questions = await Question.find(query)
       .populate({ path: "author", model: User })
       .populate({ path: "tags", model: Tag })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort(sortOptions);
 
-    return { questions };
+    const totalQuestions = await Question.countDocuments(query);
+
+    const hasNext = totalQuestions > skipAmount + pageSize;
+
+    return { questions, hasNext };
   } catch (error) {
     console.log(error);
 

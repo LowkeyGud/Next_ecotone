@@ -1,20 +1,22 @@
 import QuestionCard from "@/components/cards/QuestionCard";
 import Filter from "@/components/shared/Filter";
 import NoResult from "@/components/shared/NoResult";
+import Pagination from "@/components/shared/Pagination";
 import LocalSearchBar from "@/components/shared/navbar/search/LocalSearchBar";
 import { QuestionFilters } from "@/constants/filters";
 import { getSavedQuestions } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 
-const Collection = async ({searchParams}: SearchParamsProps) => {
+const Collection = async ({ searchParams }: SearchParamsProps) => {
   const { userId: clerkId } = auth();
 
   if (!clerkId) return null;
 
-  const savedQuestions = await getSavedQuestions({
+  const { questions, hasNext } = await getSavedQuestions({
     clerkId,
     searchQuery: searchParams.q,
+    page: searchParams.page ? +searchParams.page : 1,
     filter: searchParams.filter,
   });
   return (
@@ -38,8 +40,8 @@ const Collection = async ({searchParams}: SearchParamsProps) => {
       {/* Users List */}
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {savedQuestions.questions.length > 0 ? (
-          savedQuestions.questions.map((question: any) => (
+        {questions.length > 0 ? (
+          questions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -63,6 +65,10 @@ const Collection = async ({searchParams}: SearchParamsProps) => {
           />
         )}
       </div>
+      <Pagination
+        pageNumber={searchParams?.page ? +searchParams.page : 1}
+        hasNext={hasNext}
+      />
     </>
   );
 };

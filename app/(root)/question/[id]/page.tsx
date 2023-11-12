@@ -107,6 +107,7 @@ const QuestionDetailPage = async ({ params, searchParams }: any) => {
         userId={mongoUser._id}
         totalAnswers={question.answers.length}
         filter={searchParams.filter}
+        page={searchParams?.page}
       />
 
       {/* Just Giving a height like flutter sizedbox😝 */}
