@@ -7,9 +7,10 @@ import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import React from "react";
 
-const Community = async ({searchParams}: SearchParamsProps) => {
+const Community = async ({ searchParams }: SearchParamsProps) => {
   const users = await getAllUsers({
     searchQuery: searchParams.q,
+    filter: searchParams.filter,
   });
   return (
     <>
@@ -30,7 +31,7 @@ const Community = async ({searchParams}: SearchParamsProps) => {
       </div>
 
       {/* Users List */}
-      
+
       <section className="mt-12 flex flex-wrap gap-4">
         {users.length > 0 ? (
           users.map((user) => <UserCard key={user._id} user={user} />)

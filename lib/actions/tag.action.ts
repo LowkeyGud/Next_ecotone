@@ -15,7 +15,12 @@ export async function getAllTags(params: GetAllTagsParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
+
+    // popular
+    // recent
+    // name
+    // old
 
     const query: FilterQuery<typeof Tag> = {};
 
@@ -23,7 +28,45 @@ export async function getAllTags(params: GetAllTagsParams) {
       query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
     }
 
-    const tags = await Tag.find(query);
+    let sortOptions = {};
+
+    switch (filter) {
+      case "popular":
+        // questionCount is defined in aggregrate function below
+        sortOptions = { questionCount: -1 };
+        break;
+
+      case "recent":
+        sortOptions = { createdAt: -1 };
+        break;
+
+      case "name":
+        sortOptions = { name: 1 };
+        break;
+
+      case "old":
+        sortOptions = { createdAt: 1 };
+        break;
+
+      default:
+        break;
+    }
+
+    const tags = await Tag.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $project: {
+          name: 1,
+          questions: 1,
+          questionCount: { $size: "$questions" },
+        },
+      },
+      {
+        $sort: sortOptions,
+      },
+    ]);
 
     return { tags };
   } catch (error) {

@@ -15,6 +15,7 @@ const Collection = async ({searchParams}: SearchParamsProps) => {
   const savedQuestions = await getSavedQuestions({
     clerkId,
     searchQuery: searchParams.q,
+    filter: searchParams.filter,
   });
   return (
     <>
