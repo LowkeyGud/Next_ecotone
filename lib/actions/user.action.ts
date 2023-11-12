@@ -22,9 +22,20 @@ export async function getAllUsers(params: GetAllUsersParams) {
   try {
     await connectToDatabase();
 
-    // const { page = 1, pageSize = 20, filter, searchQuery } = params;
+    const { 
+      // page = 1, pageSize = 20, filter, 
+      searchQuery } = params;
 
-    const users = await User.find({}).sort({ createdAt: -1 });
+    const query: FilterQuery<typeof User> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: new RegExp(searchQuery, "i") } },
+        { username: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+
+    const users = await User.find(query).sort({ createdAt: -1 });
 
     return users;
   } catch (error) {
@@ -143,7 +154,7 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
 
     const { clerkId, searchQuery } = params;
 
-    const query: FilterQuery<typeof Question> = searchQuery
+    const query: FilterQuery<typeof Question> = searchQuery 
       ? { title: { $regex: new RegExp(searchQuery, "i") } }
       : {};
 
@@ -189,7 +200,6 @@ export async function getUserInfo(params: GetUserByIdParams) {
 
     const totalQuestions = await Question.countDocuments({ author: user._id });
     const totalAnswers = await Answer.countDocuments({ author: user._id });
-    
 
     return {
       user,
