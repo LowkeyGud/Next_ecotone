@@ -73,7 +73,7 @@ export async function getQuestions(params: GetQuestionsParams) {
   }
 }
 
-export async function  getQuestionById(params: GetQuestionByIdParams) {
+export async function getQuestionById(params: GetQuestionByIdParams) {
   try {
     connectToDatabase();
 

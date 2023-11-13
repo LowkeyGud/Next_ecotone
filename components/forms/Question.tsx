@@ -24,6 +24,7 @@ import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
 import { ITag } from "@/database/tag.modal";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   type?: string;
@@ -40,7 +41,8 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
 
   const edit = type === "Edit";
 
-  const parsedQuestionDetails =questionDetails && JSON.parse(questionDetails || "");
+  const parsedQuestionDetails =
+    questionDetails && JSON.parse(questionDetails || "");
 
   const groupTags = parsedQuestionDetails?.tags.map((tag: ITag) => tag.name);
 
@@ -79,8 +81,14 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
         });
         router.push("/");
       }
+      return toast({
+        title: `Question has been ${type === "Edit" ? " edited." : "created."}`,
+      });
     } catch (error) {
-      console.log(error);
+      return toast({
+        title: `${type === "Edit" ? " Edit" : "Creation"} failed.`,
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }

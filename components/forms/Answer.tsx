@@ -18,6 +18,7 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   question: string;
@@ -56,9 +57,17 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         const editor = editorRef.current as any;
 
         editor.setContent("");
+
+        return toast({
+          title: "Your answer has been submitted",
+        });
       }
     } catch (error) {
-      console.log(error);
+      return toast({
+        title: "Error Submitting.",
+        description: "Refresh the page and try again",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -100,8 +109,15 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         }
         editor.setContent(formattedAnswer);
       }
+      return toast({
+        title: "It's a prank😝",
+      });
     } catch (error) {
-      console.log("Real Error");
+      return toast({
+        title: "Error Submitting.",
+        description: "Refresh the page and try again",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmittingAI(false);
     }

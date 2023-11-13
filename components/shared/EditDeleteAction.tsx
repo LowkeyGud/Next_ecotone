@@ -5,6 +5,7 @@ import Image from "next/image";
 import { deleteQuestion } from "@/lib/actions/question.action";
 import { usePathname, useRouter } from "next/navigation";
 import { deleteAnswer } from "@/lib/actions/answer.action";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   type: string;
@@ -20,12 +21,28 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
   };
 
   const handleDelete = async () => {
-    if (type === "Question") {
-      // Delete Question
-      await deleteQuestion({ questionId: JSON.parse(itemId), path: pathname });
-    } else if (type === "Answer") {
-      // Delete Answer
-      await deleteAnswer({ answerId: JSON.parse(itemId), path: pathname });
+    try {
+      if (type === "Question") {
+        // Delete Question
+        await deleteQuestion({
+          questionId: JSON.parse(itemId),
+          path: pathname,
+        });
+      } else if (type === "Answer") {
+        // Delete Answer
+        await deleteAnswer({ answerId: JSON.parse(itemId), path: pathname });
+      }
+      return toast({
+        title: `${
+          type === "Question" ? "Question" : "Answer"
+        } deleted sucessfully`,
+      });
+    } catch (error) {
+      // TODO! This toast doesn't show in error
+      return toast({
+        title: `${type === "Question" ? "Question" : "Answer"} deletion failed`,
+        variant: "destructive",
+      });
     }
   };
 
