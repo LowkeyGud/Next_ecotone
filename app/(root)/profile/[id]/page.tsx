@@ -78,9 +78,14 @@ const Profile = async ({ params, searchParams }: URLProps) => {
           </SignedIn>
         </div>
       </div>
+
+      {/* Badges  */}
+
       <Stats
         totalQuestions={userInfo.totalQuestions}
         totalAnswers={userInfo.totalAnswers}
+        badges={userInfo.badgeCounts}
+        reputation={userInfo.reputation}
       />
 
       <div className="mt-10 flex gap-10">
@@ -105,9 +110,9 @@ const Profile = async ({ params, searchParams }: URLProps) => {
           </TabsContent>
           <TabsContent value="answers" className="flex w-full flex-col gap-6">
             <AnswerTab
-            searchParams={searchParams}
-            userId={userInfo.user._id}
-            clerkId={clerkId!}
+              searchParams={searchParams}
+              userId={userInfo.user._id}
+              clerkId={clerkId!}
             />
           </TabsContent>
         </Tabs>
