@@ -21,7 +21,8 @@ export async function viewQuestion(params: ViewQuestionParams) {
       });
 
       if (existingInteraction)
-        return console.log("User has already viewed this question.");
+        // User has already viewed this question.
+        return;
 
       // Update view count for the question
       await Question.findByIdAndUpdate(questionId, { $inc: { views: 1 } });
