@@ -29,7 +29,7 @@ const LocalSearchBar = ({
   const [search, setSearch] = useState(query || "");
 
   useEffect(() => {
-    const delayDebounceFn : any = setTimeout(() => {
+    const delayDebounceFn: any = setTimeout(() => {
       if (search) {
         const newUrl = formUrlQuery({
           params: searchParams.toString(),
@@ -68,10 +68,10 @@ const LocalSearchBar = ({
 
       <Input
         type="text"
-        placeholder={placeholder} 
+        placeholder={placeholder}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="paragraph-regular no-focus placeholder background-light800_darkgradient border-none shadow-none outline-none"
+        className="paragraph-regular text-dark200_light800 no-focus placeholder background-light800_darkgradient border-none shadow-none outline-none"
       />
     </div>
   );
