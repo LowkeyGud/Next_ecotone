@@ -11,9 +11,20 @@ import ProfileLink from "@/components/shared/ProfileLink";
 import Stats from "@/components/shared/Stats";
 import QuestionTab from "@/components/shared/QuestionTab";
 import AnswerTab from "@/components/shared/AnswerTab";
+import NoResult from "@/components/shared/NoResult";
 
 const Profile = async ({ params, searchParams }: URLProps) => {
   const userInfo = await getUserInfo({ userId: params.id });
+  if (!userInfo) {
+    return (
+      <NoResult
+        title="User Not Found"
+        description="This user doesn't exist or has deleted the account"
+        linkTitle="Search Other Users"
+        link="/community"
+      />
+    );
+  }
   const { userId: clerkId } = auth();
 
   return (
@@ -123,6 +134,8 @@ const Profile = async ({ params, searchParams }: URLProps) => {
 
 export async function generateMetadata({ params }: URLProps) {
   const userInfo = await getUserInfo({ userId: params.id });
+
+  if (!userInfo) return;
 
   return {
     title: `${userInfo.user.name} | Eco Tone`,

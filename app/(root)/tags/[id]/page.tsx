@@ -7,7 +7,7 @@ import { URLProps } from "@/types";
 import React from "react";
 
 const TagDetails = async ({ params, searchParams }: URLProps) => {
-  const { questions, tagTitle, hasNext } = await getQuestionByTagId({
+  const result = await getQuestionByTagId({
     tagId: params.id,
     page: searchParams.page ? +searchParams.page : 1,
     searchQuery: searchParams.q,
@@ -15,7 +15,7 @@ const TagDetails = async ({ params, searchParams }: URLProps) => {
 
   return (
     <>
-      <h1 className="h1-bold text-dark100_light900">{tagTitle}</h1>
+      <h1 className="h1-bold text-dark100_light900">{result?.tagTitle}</h1>
 
       <div className="mt-11 w-full">
         <LocalSearchBar
@@ -28,8 +28,8 @@ const TagDetails = async ({ params, searchParams }: URLProps) => {
       </div>
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question: any) => (
+        {result?.questions.length > 0 ? (
+          result?.questions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -55,18 +55,20 @@ const TagDetails = async ({ params, searchParams }: URLProps) => {
       </div>
       <Pagination
         pageNumber={searchParams?.page ? +searchParams.page : 1}
-        hasNext={hasNext}
+        hasNext={result?.hasNext || false}
       />
     </>
   );
 };
 
 export async function generateMetadata({ params }: URLProps) {
-  const { name, desc } = await getTagById({ tagId: params.id });
+  const tag = await getTagById({ tagId: params.id });
+
+  if (!tag) return;
 
   return {
-    title: `${name} | Eco Tone`,
-    description: `${desc}`,
+    title: `${tag.name} | Eco Tone`,
+    description: `${tag.desc}`,
   };
 }
 

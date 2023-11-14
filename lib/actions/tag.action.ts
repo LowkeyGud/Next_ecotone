@@ -10,7 +10,7 @@ import {
 } from "./shared.types";
 import Tag, { ITag } from "@/database/tag.modal";
 import Question from "@/database/question.modal";
-import { FilterQuery } from "mongoose";
+import mongoose, { FilterQuery } from "mongoose";
 
 export async function getAllTags(params: GetAllTagsParams) {
   try {
@@ -82,9 +82,11 @@ export async function getTagById(params: GetTagByIdParams) {
 
     const { tagId } = params;
 
-    const tag = await Tag.findById(tagId);
+    if (mongoose.isValidObjectId(tagId)) {
+      const tag = await Tag.findById(tagId);
 
-    return { name: tag.name, desc: tag.description };
+      return tag;
+    }
   } catch (error) {
     console.log(error);
     throw error;
@@ -138,26 +140,29 @@ export async function getQuestionByTagId(params: GetQuestionsByTagIdParams) {
     const skipAmount = (page - 1) * pageSize;
 
     const tagFilter: FilterQuery<ITag> = { _id: tagId };
+    let tag;
 
-    const tag = await Tag.findOne(tagFilter).populate({
-      path: "questions",
-      model: Question,
-      match: searchQuery
-        ? { title: { $regex: searchQuery, $options: "i" } }
-        : {},
-      options: {
-        skip: skipAmount,
-        limit: pageSize + 1, // pageSize+1 to find if there are other questions and compute hasNext based on that
-        sort: { createdAt: -1 },
-      },
-      populate: [
-        { path: "tags", model: Tag, select: "_id name" },
-        { path: "author", model: User, select: "_id clerkId name picture" },
-      ],
-    });
+    if (mongoose.isValidObjectId(tagId)) {
+      tag = await Tag.findOne(tagFilter).populate({
+        path: "questions",
+        model: Question,
+        match: searchQuery
+          ? { title: { $regex: searchQuery, $options: "i" } }
+          : {},
+        options: {
+          skip: skipAmount,
+          limit: pageSize + 1, // pageSize+1 to find if there are other questions and compute hasNext based on that
+          sort: { createdAt: -1 },
+        },
+        populate: [
+          { path: "tags", model: Tag, select: "_id name" },
+          { path: "author", model: User, select: "_id clerkId name picture" },
+        ],
+      });
+    }
 
     if (!tag) {
-      throw Error("Tag not found!");
+      return;
     }
 
     const questions = tag.questions;

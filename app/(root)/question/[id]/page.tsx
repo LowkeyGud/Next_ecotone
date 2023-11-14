@@ -12,6 +12,7 @@ import { getUserById } from "@/lib/actions/user.action";
 import AllAnswers from "@/components/shared/AllAnswers";
 import Votes from "@/components/shared/Votes";
 import { URLProps } from "@/types";
+import NoResult from "@/components/shared/NoResult";
 
 const QuestionDetailPage = async ({ params, searchParams }: any) => {
   const { userId: clerkId } = auth();
@@ -24,6 +25,17 @@ const QuestionDetailPage = async ({ params, searchParams }: any) => {
   const question = await getQuestionById({
     questionId: params.id,
   });
+
+  if (!question) {
+    return (
+      <NoResult
+        title="Question Not Found"
+        description="This question doesn't exist or has been deleted by the author"
+        linkTitle="Go To Homepage"
+        link="/"
+      />
+    );
+  }
 
   return (
     <>
@@ -49,7 +61,7 @@ const QuestionDetailPage = async ({ params, searchParams }: any) => {
             <Votes
               type="Question"
               itemId={JSON.stringify(question._id)}
-              userId={JSON.stringify(mongoUser._id)}
+              userId={JSON.stringify(mongoUser?._id)}
               upvotes={question.upvotes.length}
               hasupVoted={question.upvotes.includes(mongoUser._id)}
               downvotes={question.downvotes.length}
@@ -128,6 +140,8 @@ export async function generateMetadata({ params }: URLProps) {
   const question = await getQuestionById({
     questionId: params.id,
   });
+
+  if (!question) return;
 
   return {
     title: `${question.title}`,

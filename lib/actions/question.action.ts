@@ -17,7 +17,7 @@ import User from "@/database/user.modal";
 import { revalidatePath } from "next/cache";
 import Answer from "@/database/answer.modal";
 import Interaction from "@/database/interaction.modal";
-import { FilterQuery } from "mongoose";
+import mongoose, { FilterQuery } from "mongoose";
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
@@ -80,20 +80,22 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
 
     const { questionId } = params;
 
-    const question = await Question.findById(questionId)
-      .populate({
-        path: "author",
-        model: User,
-        select: "_id clerkId name picture",
-      })
-      .populate({
-        path: "tags",
-        model: Tag,
-        select: "_id name",
-      })
-      .sort({ createdAt: -1 });
+    if (mongoose.isValidObjectId(questionId)) {
+      const question = await Question.findById(questionId)
+        .populate({
+          path: "author",
+          model: User,
+          select: "_id clerkId name picture",
+        })
+        .populate({
+          path: "tags",
+          model: Tag,
+          select: "_id name",
+        })
+        .sort({ createdAt: -1 });
 
-    return question;
+      return question;
+    }
   } catch (error) {
     console.log(error);
 
@@ -357,7 +359,7 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
 
     const hasNext = totalQuestions > skipAmount + recommendedQuestions.length;
 
-    return { questions: recommendedQuestions,  hasNext };
+    return { questions: recommendedQuestions, hasNext };
   } catch (error) {
     console.error("Error getting recommended questions:", error);
     throw error;
