@@ -9,6 +9,12 @@ import { HomePageFilters } from "@/constants/filters";
 import { getQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home | Eco Tone",
+  description: "A Modern Stack Overflow Clone",
+};
 
 export default async function Home({ searchParams }: SearchParamsProps) {
   const { questions, hasNext } = await getQuestions({

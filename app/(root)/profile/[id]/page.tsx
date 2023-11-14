@@ -121,4 +121,13 @@ const Profile = async ({ params, searchParams }: URLProps) => {
   );
 };
 
+export async function generateMetadata({ params }: URLProps) {
+  const userInfo = await getUserInfo({ userId: params.id });
+
+  return {
+    title: `${userInfo.user.name} | Eco Tone`,
+    description: "Profile of " + userInfo.user.name,
+  };
+}
+
 export default Profile;

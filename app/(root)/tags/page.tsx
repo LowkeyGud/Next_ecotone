@@ -7,6 +7,12 @@ import { ITag } from "@/database/tag.modal";
 import { getAllTags } from "@/lib/actions/tag.action";
 import { SearchParamsProps } from "@/types";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tags | EcoTone",
+  description: "Browser Questions Throughout Tags",
+};
 
 const Tags = async ({ searchParams }: SearchParamsProps) => {
   const { tags, hasNext } = await getAllTags({

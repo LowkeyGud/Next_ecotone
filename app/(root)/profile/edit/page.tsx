@@ -3,6 +3,12 @@ import { getUserById } from "@/lib/actions/user.action";
 import { ParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 import Profile from "@/components/forms/Profile";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Edit Profile | EcoTone",
+  description: "Change Your Profile Info",
+};
 
 const EditProfile = async ({ params }: ParamsProps) => {
   const { userId } = auth();

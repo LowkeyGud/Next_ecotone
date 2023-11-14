@@ -22,7 +22,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Ecotone",
   description:
-    "Online community for developers to learn, share their programming knowledge",
+    "Online community for developers to learn and share their programming knowledge",
   icons: {
     icon: "/assets/images/site-logo.svg",
   },

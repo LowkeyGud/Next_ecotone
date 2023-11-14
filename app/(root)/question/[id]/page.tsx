@@ -11,6 +11,7 @@ import { auth } from "@clerk/nextjs";
 import { getUserById } from "@/lib/actions/user.action";
 import AllAnswers from "@/components/shared/AllAnswers";
 import Votes from "@/components/shared/Votes";
+import { URLProps } from "@/types";
 
 const QuestionDetailPage = async ({ params, searchParams }: any) => {
   const { userId: clerkId } = auth();
@@ -122,5 +123,15 @@ const QuestionDetailPage = async ({ params, searchParams }: any) => {
     </>
   );
 };
+
+export async function generateMetadata({ params }: URLProps) {
+  const question = await getQuestionById({
+    questionId: params.id,
+  });
+
+  return {
+    title: `${question.title}`,
+  };
+}
 
 export default QuestionDetailPage;

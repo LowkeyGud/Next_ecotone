@@ -24,4 +24,11 @@ const AskQuestion = async () => {
   );
 };
 
+export async function generateMetadata() {
+  return {
+    title: "Ask a Question | EcoTone",
+    description: "Get Answers of Your Coding Problems",
+  };
+}
+
 export default AskQuestion;

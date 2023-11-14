@@ -7,6 +7,12 @@ import { QuestionFilters } from "@/constants/filters";
 import { getSavedQuestions } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Collection | Eco Tone",
+  description: "Your favourite questions all in one place",
+};
 
 const Collection = async ({ searchParams }: SearchParamsProps) => {
   const { userId: clerkId } = auth();

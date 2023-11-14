@@ -2,7 +2,7 @@ import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import Pagination from "@/components/shared/Pagination";
 import LocalSearchBar from "@/components/shared/navbar/search/LocalSearchBar";
-import { getQuestionByTagId } from "@/lib/actions/tag.action";
+import { getQuestionByTagId, getTagById } from "@/lib/actions/tag.action";
 import { URLProps } from "@/types";
 import React from "react";
 
@@ -60,5 +60,14 @@ const TagDetails = async ({ params, searchParams }: URLProps) => {
     </>
   );
 };
+
+export async function generateMetadata({ params }: URLProps) {
+  const { name, desc } = await getTagById({ tagId: params.id });
+
+  return {
+    title: `${name} | Eco Tone`,
+    description: `${desc}`,
+  };
+}
 
 export default TagDetails;

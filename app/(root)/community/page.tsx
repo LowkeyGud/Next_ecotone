@@ -7,6 +7,12 @@ import { getAllUsers } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Community | EcoTone",
+  description: "Amazing Minds Of Ecotone Community",
+};
 
 const Community = async ({ searchParams }: SearchParamsProps) => {
   const { users, hasNext } = await getAllUsers({

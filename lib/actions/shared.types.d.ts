@@ -96,6 +96,9 @@ export interface GetAllTagsParams {
   filter?: string;
   searchQuery?: string;
 }
+export interface GetTagByIdParams {
+  tagId: string;
+}
 
 export interface GetQuestionsByTagIdParams {
   tagId: string;
