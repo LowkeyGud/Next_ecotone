@@ -45,7 +45,6 @@ const Profile = ({ clerkId, user }: Props) => {
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof ProfileSchema>) => {
     setIsSubmitting(true);
-    console.log("hello");
     try {
       // update the user
       await updateUser({

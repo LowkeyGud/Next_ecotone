@@ -159,13 +159,9 @@ export async function downvoteAnswer(params: AnswerVoteParams) {
       updateQuery = { $addToSet: { downvotes: userId } };
     }
 
-    console.log("Above");
-
     const answer = await Answer.findByIdAndUpdate(answerId, updateQuery, {
       new: true,
     });
-
-    console.log("Below");
 
     if (!answer) {
       throw new Error("Question not found");
@@ -208,7 +204,6 @@ export async function deleteAnswer(params: DeleteAnswerParams) {
     await Interaction.deleteMany({ answer: answerId });
 
     revalidatePath(path);
-
   } catch (error) {
     console.log(error);
   }

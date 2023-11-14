@@ -34,7 +34,7 @@ const Votes = ({
   hasdownVoted,
   hasSaved,
 }: Props) => {
-  const router  = useRouter();
+  const router = useRouter();
   const pathname = usePathname();
   const handleSave = async () => {
     await toggleSaveQuestion({
@@ -44,8 +44,10 @@ const Votes = ({
     });
 
     return toast({
-      title: `Question ${hasSaved ? "removed from" : "saved in"} your collection`,
-      variant: hasSaved ? "default" : "destructive",
+      title: `Question ${
+        hasSaved ? "removed from" : "saved in"
+      } your collection`,
+      variant: !hasSaved ? "default" : "destructive",
     });
   };
 
@@ -78,7 +80,7 @@ const Votes = ({
 
       return toast({
         title: `Upvote ${hasupVoted ? "Removed" : "Successful"}`,
-        variant: hasupVoted ? "default" : "destructive",
+        variant: !hasupVoted ? "default" : "destructive",
       });
     }
 
@@ -102,8 +104,8 @@ const Votes = ({
       }
 
       return toast({
-        title: `Upvote ${hasdownVoted ? "Removed" : "Successful"}`,
-        variant: hasdownVoted ? "default" : "destructive",
+        variant: !hasdownVoted ? "default" : "destructive",
+        title: `Downvote ${hasdownVoted ? "Removed" : "Successful"}`,
       });
     }
   };

@@ -81,28 +81,20 @@ const Answer = ({ question, questionId, authorId }: Props) => {
     setIsSubmittingAI(true);
 
     try {
-      console.log("1");
-
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
         { method: "POST", body: JSON.stringify({ question }) }
       );
 
-      console.log("2");
-
       const aiAnswer = await response.json();
-      console.log("3");
 
       // let formattedAnswer = aiAnswer.reply.replace(/\n/g, "<br/>");
       let formattedAnswer = aiAnswer.reply;
-      console.log("4");
 
       if (editorRef.current) {
-        console.log("5");
 
         const editor = editorRef.current as any;
         if (!formattedAnswer) {
-          console.log("6");
 
           formattedAnswer =
             '<p>This <strong>question was already asked to AI</strong> before asking here😏<br><br>Answer this question yourself🤦&zwj;♂️<br><br><span style="color: rgb(224, 62, 45);"><strong>Note</strong></span>: To get previous written text: <strong><span style="color: rgb(224, 62, 45);">Undo</span></strong> and then <strong><span style="color: rgb(224, 62, 45);">Redo</span></strong> from above button😉</p>';
