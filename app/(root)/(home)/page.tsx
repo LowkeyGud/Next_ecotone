@@ -12,12 +12,44 @@ import {
 } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Link from "next/link";
-import { Metadata } from "next";
 import { auth } from "@clerk/nextjs";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Home | Eco Tone",
-  description: "A Modern Stack Overflow Clone",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL!),
+  title: "Ecotone",
+  description:
+    "Online community for developers to learn and share their programming knowledge",
+  icons: {
+    icon: "/assets/images/site-logo.svg",
+  },
+  openGraph: {
+    title: "Eco Tone",
+    description:
+      "Have a persistent code bug that just doesn't go away? Just post it to EcoTone and people around the globe will help you kill it.",
+    url: "https://next-ecotone.vercel.app/",
+    siteName: "Eco Tone",
+    images: [
+      {
+        url: "https://i.ibb.co/xhnpKJ6/ecotone-image.png",
+        width: 1200,
+        height: 630,
+        alt: "EcoTone Q&A",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Eco Tone",
+    description:
+      "Have a persistent code bug that just doesn't go away? Just post it to EcoTone and people around the globe will help you kill it.",
+    // siteId: '',
+    creator: "@LastSighh",
+    // creatorId: '',
+    images: ["https://i.ibb.co/xhnpKJ6/ecotone-image.png"],
+  },
 };
 
 export default async function Home({ searchParams }: SearchParamsProps) {
