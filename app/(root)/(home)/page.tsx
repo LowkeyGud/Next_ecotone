@@ -28,10 +28,10 @@ export const metadata: Metadata = {
     description:
       "Have a persistent code bug that just doesn't go away? Just post it to EcoTone and people around the globe will help you kill it.",
     url: "https://next-ecotone.vercel.app/",
-    siteName: "Eco Tone",
+    siteName: "Eco Tone | Get Answers to your coding probelms",
     images: [
       {
-        url: "https://i.ibb.co/xhnpKJ6/ecotone-image.png",
+        url: "https://i.ibb.co/qRvjtKF/ecotone-metadata.png",
         width: 1200,
         height: 630,
         alt: "EcoTone Q&A",
@@ -42,13 +42,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Eco Tone",
+    title: "Eco Tone | Get Answers to your coding probelms",
     description:
       "Have a persistent code bug that just doesn't go away? Just post it to EcoTone and people around the globe will help you kill it.",
     // siteId: '',
     creator: "@LastSighh",
     // creatorId: '',
-    images: ["https://i.ibb.co/xhnpKJ6/ecotone-image.png"],
+    images: ["https://i.ibb.co/qRvjtKF/ecotone-metadata.png"],
   },
 };
 
