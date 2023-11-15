@@ -47,8 +47,7 @@ const AnswerCard = ({
         </div>
        
         <SignedIn> 
-          {showActionButtons && (
-            //  TODO! Put Answer delete feature also inside the question 
+          {showActionButtons && ( 
             <EditDeleteAction type="Answer" itemId={JSON.stringify(_id)} />
           )}
         </SignedIn>

@@ -8,6 +8,8 @@ import { getTimestamp } from "@/lib/utils";
 import ParseHTML from "./ParseHTML";
 import Votes from "./Votes";
 import Pagination from "./Pagination";
+import EditDeleteAction from "./EditDeleteAction";
+import { SignedIn } from "@clerk/nextjs";
 
 interface Props {
   questionId: string;
@@ -24,12 +26,10 @@ const AllAnswers = async ({
   page,
   filter,
 }: Props) => {
-
-
-  const {answers, hasNext} = await getAnswers({
+  const { answers, hasNext } = await getAnswers({
     questionId,
     sortBy: filter,
-    page: page ? +page : 1
+    page: page ? +page : 1,
   });
 
   return (
@@ -43,7 +43,7 @@ const AllAnswers = async ({
       <div>
         {answers.map((answer) => (
           <article key={answer._id} className="light-border border-b py-10">
-            <div className="mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
+            <div className="mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-5">
               <Link
                 href={`/profile/${answer.author.clerkId}`}
                 className="flex flex-1 items-start gap-1 sm:items-center"
@@ -65,7 +65,16 @@ const AllAnswers = async ({
                   </p>
                 </div>
               </Link>
-              <div className="flex justify-end">
+              <div className="flex gap-2">
+                <SignedIn>
+                  {userId &&
+                    userId.toString() === answer.author._id.toString() && (
+                      <EditDeleteAction
+                        type="Answer"
+                        itemId={JSON.stringify(answer._id)}
+                      />
+                    )}
+                </SignedIn>
                 <Votes
                   type="Answer"
                   itemId={JSON.stringify(answer._id)}
@@ -82,10 +91,7 @@ const AllAnswers = async ({
           </article>
         ))}
       </div>
-      <Pagination
-        pageNumber={page ? +page : 1}
-        hasNext={hasNext}
-      />
+      <Pagination pageNumber={page ? +page : 1} hasNext={hasNext} />
     </div>
   );
 };
