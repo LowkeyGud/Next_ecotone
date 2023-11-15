@@ -1,3 +1,5 @@
+// @ts-nocheck
+/* eslint-disable tailwindcss/no-custom-classname */
 // Inspired by react-hot-toast library
 import * as React from "react"
 
@@ -65,7 +67,7 @@ const addToRemoveQueue = (toastId: string) => {
     toastTimeouts.delete(toastId)
     dispatch({
       type: "REMOVE_TOAST",
-      toastId: toastId,
+      toastId,
     })
   }, TOAST_REMOVE_DELAY)
 
@@ -163,7 +165,7 @@ function toast({ ...props }: Toast) {
   })
 
   return {
-    id: id,
+    id,
     dismiss,
     update,
   }

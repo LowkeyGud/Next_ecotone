@@ -1,10 +1,12 @@
-import { SignedIn, UserButton } from "@clerk/nextjs";
+"use client";
+
+import { ClerkLoading, SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import Theme from "./Theme";
 import MobileNav from "./MobileNav";
 import GlobalSearch from "./search/GlobalSearch";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Navbar = () => {
   return (
@@ -21,10 +23,14 @@ const Navbar = () => {
           Eco <span className="text-primary-500">Tone</span>
         </p>
       </Link>
-      <GlobalSearch/>
+      <GlobalSearch />
       <div className="flex-between gap-5">
         <Theme />
         <SignedIn>
+          <ClerkLoading>
+            <Skeleton className="h-10 w-10 rounded-full" />
+          </ClerkLoading>
+
           <UserButton
             afterSignOutUrl="/"
             appearance={{
