@@ -1,0 +1,56 @@
+%%{init: {"theme": "default"}}%%
+erDiagram
+  USER ||--o{ QUESTION : authors
+  USER ||--o{ ANSWER : writes
+  QUESTION ||--o{ ANSWER : receives
+  QUESTION ||--o{ TAG : tagged
+  USER ||--o{ INTERACTION : records
+
+  USER {
+    ObjectId _id PK
+    string clerkId
+    string name
+    string username UK
+    string email UK
+    string picture
+    number reputation
+    ObjectId saved "FK array"
+  }
+
+  QUESTION {
+    ObjectId _id PK
+    string title
+    string content
+    ObjectId author FK
+    ObjectId tags "FK array"
+    ObjectId answers "FK array"
+    ObjectId upvotes "FK array"
+    ObjectId downvotes "FK array"
+    number views
+  }
+
+  ANSWER {
+    ObjectId _id PK
+    string content
+    ObjectId author FK
+    ObjectId question FK
+    ObjectId upvotes "FK array"
+    ObjectId downvotes "FK array"
+  }
+
+  TAG {
+    ObjectId _id PK
+    string name UK
+    string description
+    ObjectId questions "FK array"
+    ObjectId followers "FK array"
+  }
+
+  INTERACTION {
+    ObjectId _id PK
+    ObjectId user FK
+    string action
+    ObjectId question FK
+    ObjectId answer FK
+    ObjectId tags "FK array"
+  }
